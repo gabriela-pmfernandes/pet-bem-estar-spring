@@ -11,7 +11,7 @@ import jakarta.persistence.PersistenceContext;
 
 @Repository
 @Transactional
-public class TutorDAOJPA {
+public class TutorDAOJPA implements TutorDAO{
 	@PersistenceContext
 	private EntityManager em;
 	public List<Tutor> listarTodos(){
