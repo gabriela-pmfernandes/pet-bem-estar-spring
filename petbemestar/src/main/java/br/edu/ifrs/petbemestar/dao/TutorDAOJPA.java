@@ -15,7 +15,7 @@ public class TutorDAOJPA implements TutorDAO{
 	@PersistenceContext
 	private EntityManager em;
 	public List<Tutor> listarTodos(){
-		return em.createQuery("SELECT t FROM Tutor t", Tutor.class).getResultList();
+		return em.createQuery("SELECT t FROM Tutor t ORDER BY t.nome", Tutor.class).getResultList();
 	}
 	
 	public Tutor buscarPorId(Long id) {

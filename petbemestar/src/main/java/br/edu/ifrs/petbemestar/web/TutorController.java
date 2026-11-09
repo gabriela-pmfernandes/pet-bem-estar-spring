@@ -3,8 +3,12 @@ package br.edu.ifrs.petbemestar.web;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,44 +18,54 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import jakarta.validation.Valid;
 
-@RestController
+@Controller
 public class TutorController {
 	private final TutorDAO dao;
+	
 	public TutorController(TutorDAO dao) {
 		this.dao = dao;
 	}
-	@GetMapping("/tutores")
-	public List<Tutor> listar(){
-		return dao.listarTodos();
+	
+	@GetMapping("/paginas/tutores")
+	public String listar(Model model) {
+		model.addAttribute("tutores", dao.listarTodos());
+		return "tutores/lista";
 	}
 	
-	@PostMapping("/tutores")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Tutor cadastrar(@RequestBody Tutor tutor) {
+	@GetMapping("/paginas/tutores/nova")
+	public String formulario(Model model) {
+		model.addAttribute("tutor", new Tutor());
+		return "tutores/formulario";
+	}
+	
+	@PostMapping("/paginas/tutores/nova")
+	public String cadastrar(@Valid @ModelAttribute Tutor tutor, BindingResult resultado) {
+		if(resultado.hasErrors()) {
+			return "tutores/formulario";
+		}
 		dao.salvar(tutor);
-		return tutor;
+		return "redirect:/paginas/tutores";
 	}
 	
-	@GetMapping("/tutores/{id}")
-	public Tutor buscarPorId(@PathVariable Long id) {
-		return dao.buscarPorId(id);
+	@GetMapping("/paginas/tutores/{id}/editar")
+	public String edicao(@PathVariable Long id, Model model) {
+		model.addAttribute("tutor", dao.buscarPorId(id));
+		return "tutores/formulario";
 	}
 	
-	@PutMapping("/tutores/{id}")
-	public Tutor atuallizar(@PathVariable Long id, @RequestBody Tutor dados) {
-		Tutor tutor = dao.buscarPorId(id);
-		tutor.setNome(dados.getNome());
-		tutor.setTelefone(dados.getTelefone());
-		tutor.setEmail(dados.getEmail());
+	
+	@PostMapping("/paginas/tutores/editar")
+	public String atuallizar(@ModelAttribute Tutor tutor) {
 		dao.atualizar(tutor);
-		return tutor;
+		return "redirect:/paginas/tutores";
 	}
 	
-	@DeleteMapping("/tutores/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long id) {
+	@PostMapping("/paginas/tutores/{id}/remover")
+	public String remover(@PathVariable Long id) {
 		dao.remover(id);
+		return "redirect:/paginas/tutores";
 	}
 
 }
