@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Tutor {
@@ -11,7 +12,10 @@ public class Tutor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "Informe o nome do tutor")
 	private String nome;
+	
+	@NotBlank(message = "Informe o telefone")
 	private String telefone;
 	private String email;
 	public Tutor() {
@@ -21,6 +25,12 @@ public class Tutor {
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
+	}
+	
+	
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Long getId() {
