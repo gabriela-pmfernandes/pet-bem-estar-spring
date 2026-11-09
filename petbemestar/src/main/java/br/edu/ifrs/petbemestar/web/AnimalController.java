@@ -1,82 +1,73 @@
 package br.edu.ifrs.petbemestar.web;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifrs.petbemestar.dao.AnimalDAO;
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Animal;
 import br.edu.ifrs.petbemestar.dominio.Porte;
 import br.edu.ifrs.petbemestar.dominio.Tipo;
+import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
 
-@Controller
-public class AnimalController {
-	private final AnimalDAO animalDao;
-	private final TutorDAO tutorDao;
-	
-	public AnimalController(AnimalDAO animalDao, TutorDAO tutorDao) {
-		this.animalDao = animalDao;
-		this.tutorDao = tutorDao;
-	}
-	
-	@GetMapping("/paginas/animais")
-	public String listar(Model model) {
-		model.addAttribute("animais", animalDao.listarTodos());
-		return "animais/lista";
-	}
-	
-	@GetMapping("/paginas/animais/nova")
-	public String formulario(Model model) {
-		model.addAttribute("animal", new Animal());
-		model.addAttribute("tutores", tutorDao.listarTodos());
-		model.addAttribute("tipos", Tipo.values());
-		model.addAttribute("portes", Porte.values());
-		return "animais/formulario";
-	}
-	
-	@PostMapping("/paginas/animais/nova")
-	public String cadastrar(@Valid @ModelAttribute Animal animal, BindingResult resultado, Model model) {
-		if(resultado.hasErrors()) {
-			model.addAttribute("tutores", tutorDao.listarTodos());
-			model.addAttribute("tipos", Tipo.values());
-			model.addAttribute("portes", Porte.values());
-			return "animais/formulario";
-		}
-		animalDao.salvar(animal);
-		return "redirect:/paginas/animais";
-	}
-	
-	@GetMapping("/paginas/animais/{id}/editar")
-	public String edicao(@PathVariable Long id, Model model) {
-		model.addAttribute("animal", animalDao.buscarPorId(id));
-		model.addAttribute("tutores", tutorDao.listarTodos());
-		model.addAttribute("tipos", Tipo.values());
-		model.addAttribute("portes", Porte.values());
-		return "animais/formulario";
-	}
-	
-	@PostMapping("/paginas/animais/editar")
-	public String atualizar(@Valid @ModelAttribute Animal animal, BindingResult resultado, Model model) {
-		if(resultado.hasErrors()) {
-			model.addAttribute("tutores", tutorDao.listarTodos());
-			model.addAttribute("tipos", Tipo.values());
-			model.addAttribute("portes", Porte.values());
-			return "animais/formulario";
-		}
-		animalDao.atualizar(animal);
-		return "redirect:/paginas/animais";
-	}
-	
-	@PostMapping("/paginas/aniamis/{id}/remover")
-	public String remover(@PathVariable Long id) {
-		animalDao.remover(id);
-		return "redirect:/paginas/aninais";
-	}
 
+
+@RestController
+public class AnimalController {
+
+	private final AnimalDAO dao;
+	
+	
+	public AnimalController(AnimalDAO dao) {
+		this.dao = dao;
+	}
+	
+	@GetMapping("/animais")
+	public List<Animal> listar() {
+		return dao.listarTodos();
+	}
+	
+	
+	@PostMapping("/animais")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Animal cadastrar(@RequestBody Animal animal) {
+		dao.salvar(animal);
+		return animal;
+	}
+	
+	
+	@GetMapping("/animais/{id}")
+	public Animal buscarPorId(@PathVariable Long id) {
+	    return dao.buscarPorId(id);
+	}
+	
+	@PutMapping("/animais/{id}")
+	public Animal atualizar(@PathVariable Long id, @RequestBody Animal dados) {
+	    Animal animal = dao.buscarPorId(id);
+	    animal.setNome(dados.getNome());
+	    animal.setTipo(dados.getTipo());
+	    animal.setPorte(dados.getPorte());
+	    animal.setTutor(dados.getTutor());
+	    dao.atualizar(animal);
+	    return animal;
+	}
+	
+	@DeleteMapping("/animais/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long id) {
+	    dao.remover(id);
+	}
 }
