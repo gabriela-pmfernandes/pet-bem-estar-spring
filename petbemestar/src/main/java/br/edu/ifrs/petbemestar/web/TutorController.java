@@ -22,7 +22,7 @@ import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
 import jakarta.validation.Valid;
 
-@Controller
+@RestController
 public class TutorController {
 private final TutorDAO dao;
 	

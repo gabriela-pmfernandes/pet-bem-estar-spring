@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>Editar Animal</title>
+</head>
+<body>
+	<h1>Editar Animal</h1>
+	<form method="post" th:action="@{/paginas/animais/editar}" th:object="${animal}">
+		<input type="hidden" th:field="*{id}">
+		<p>
+			<label>Nome do Animal:</label>
+			<input type="text" th:field="*{nome}">
+			<span th:errors="*{nome}"></span>
+		</p>
+		<p>
+			<label>Tipo: </label>
+			<select th:field="*{tipo}">
+				<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}"></option>
+			</select>
+		</p>
+		<p>
+			<label>Porte: </label>
+			<select th:field="*{porte}">
+				<option th:each="p : ${portes}" th:value="${p}" th:text="${p.nome}"></option>
+			</select>
+		</p>
+		<p>
+			<label>Tutor: </label>
+			<select th:field="*{tutor.id}">
+				<option th:each="t : ${tutores}" th:value="${t.id}" th:text="${t.nome}"></option>
+			</select>
+			<span th:errors="*{tutor}"></span>
+		</p>
+		<button type="submit">Salvar Alterações</button>
+	</form>
+</body>
+</html>

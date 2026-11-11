@@ -17,7 +17,7 @@ public class AnimalDAOJPA implements AnimalDAO{
 	@Override
 	public List<Animal> listarTodos() {
 		// TODO Auto-generated method stub
-		return em.createQuery("SELECT a FROM animal a ORDER BY  a.nome", Animal.class).getResultList();
+		return em.createQuery("SELECT a FROM Animal a ORDER BY  a.nome", Animal.class).getResultList();
 	}
 
 	@Override

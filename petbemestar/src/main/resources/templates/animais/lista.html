@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>Animais</title>
+</head>
+<body>
+	<h1>Animais Cadastrados</h1>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Nome do animal</th>
+				<th>Tipo</th>
+				<th>Porte</th>
+				<th>Tutor</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="a : ${animais}">
+				<td th:text="${a.nome}"></td>
+				<td th:text="${a.tipo.nome}"></td>
+				<td th:text="${a.porte.nome}"></td>
+				<td th:text="${a.tutor.nome}"></td>
+				<td><a th:href="@{/paginas/animais/{id}/editar(id=${a.id})}">Editar</a>
+					<form th:action="@{/paginas/animais/{id}/remover(id=${a.id})}" method="post" style="display: inline; margin-left: 10px;">
+						<button type="submit">Remover</button>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

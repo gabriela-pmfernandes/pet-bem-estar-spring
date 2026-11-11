@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>Editar Tutor</title>
+</head>
+<body>
+	<h1>Editar Tutor</h1>
+	<form method="post" th:action="@{/paginas/tutores/editar}" th:object="${tutor}">
+		<input type="hidden" th:field="*{id}">
+		
+		<p>
+			<label>Nome: </label>
+			<input type="text" th:field="*{nome}">
+			<span th:errors="*{nome}"></span>
+		</p>
+		<p>
+			<label>Telefone: </label>
+			<input type="text" th:field="*{telefone}">
+			<span th:errors="*{telefone}"></span>
+		</p>
+		<p>
+			<label>Email</label>
+			<input type="text" th:field="*{email}">
+			<span th:errors="*{email}"></span>
+		</p>
+		<button type="submit">Salvar Alterações</button>
+	</form>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>Novo Animal</title>
+</head>
+<body>
+	<h1>Novo Animal</h1>
+	<form method="post" th:action="@{/paginas/animais/nova}" th:object="${animal}">
+		<p>
+			<label>Nome do animal: </label>
+			<input type="text" th:field="*{nome}">
+			<span th:errors="*{nome}"></span>
+		</p>
+		<p>
+			<label>Tipo: </label>
+			<select th:field="*{tipo}">
+				<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}">Cachorro</option>
+			</select>
+		</p>
+		
+		<p>
+			<label>Porte: </label>
+			<select th:field="*{porte}">
+				<option th:each="p : ${portes}" th:value="${p}" th:text="${p.nome}">Médio</option>
+			</select>
+			<span th:errors="*{porte}"></span>
+		</p>
+		<p>
+			<label>Tutor: </label>
+			<select th:field="*{tutor.id}">
+				<option th:each="t : ${tutores}" th:value="${t.id}" th:text="${t.nome}">Dona Rosa</option>
+			</select>
+			<span th:errors="*{tutor}"></span>
+		</p>
+		<button type="submit">Cadastrar</button>
+	</form>
+</body>
+</html>
