@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title th:text="${tutor.nome}">Tutores</title>
+</head>
+<body>
+	<h1 th:text="${tutor.nome}">Tutores Cadastrados</h1>
+	<p>Telefone: <span th:text="${tutor.telefone}"></span></p>
+	<p th:if="${animais.isEmpty()}">Nenhum animal cadastrado</p>
+	<p class="erro" th:if="${erro}" th:text="${erro}"></p>
+	<table border="1" th:if="${!animais.isEmpty()}">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Tipo</th>
+				<th>Porte</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="animal : ${animais}">
+				<td th:text="${animal.nome}"></td>
+				<td th:text="${animal.tipo}"></td>
+				<td th:text="${animal.porte}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<p><a th:href="@{/paginas/tutores}">Voltar</a></p>
+</body>
+</html>

@@ -17,7 +17,9 @@
 		</thead>
 		<tbody>
 			<tr th:each="t : ${tutores}">
-				<td th:text="${t.nome}"></td>
+				<td>
+					<a th:href="@{/paginas/tutores/{id}(id=${t.id})}" th:text="${t.nome}"></a>
+				</td>
 				<td th:text="${t.telefone}"></td>
 				<td th:text="${t.email}"></td>
 				<td><a th:href="@{/paginas/tutores/{id}/editar(id=${t.id})}">Editar</a>

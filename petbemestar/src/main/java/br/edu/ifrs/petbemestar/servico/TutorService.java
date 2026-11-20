@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifrs.petbemestar.dao.AnimalDAO;
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
+import br.edu.ifrs.petbemestar.dominio.Animal;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
 
 @Service
@@ -50,5 +51,9 @@ public class TutorService {
 		}
 		dao.remover(id);
 	}
+	
+	public List<Animal> listarPorTutor(Long id){
+		return animalDAO.listarPorTutor(id);
+	} 
 
 }

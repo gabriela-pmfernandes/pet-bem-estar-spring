@@ -78,6 +78,14 @@ public class TutorPaginaController {
 	    
 	}
 	
+	@GetMapping("/paginas/tutores/{id}")
+	public String detalhe(@PathVariable Long id, Model model) {
+		model.addAttribute("tutor", service.buscarPorId(id));
+		model.addAttribute("animais", service.listarPorTutor(id));
+		
+		return"tutores/detalhe";
+	}
+	
 	@PostMapping("/paginas/tutores/{id}/remover")
 	public String remover(@PathVariable Long id, Model model) {
 		try {
