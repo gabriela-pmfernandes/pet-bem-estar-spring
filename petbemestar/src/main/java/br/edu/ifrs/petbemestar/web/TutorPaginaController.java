@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.servico.RegraDeNegocioException;
 import br.edu.ifrs.petbemestar.servico.TutorService;
 import jakarta.validation.Valid;
 
@@ -62,8 +63,16 @@ public class TutorPaginaController {
 	}
 	
 	@PostMapping("/paginas/tutores/{id}/remover")
-	public String remover(@PathVariable Long id) {
-	    service.remover(id);
-	    return "redirect:/paginas/tutores";
+	public String remover(@PathVariable Long id, Model model) {
+		try {
+			service.remover(id);
+			return "redirect:/paginas/tutores";
+		}catch(RegraDeNegocioException e) {
+			model.addAttribute("tutores", service.listarTodos());
+			model.addAttribute("erro", e.getMessage());
+			return "tutores/lista";
+		}
+	    
+	    
 	}
 }
