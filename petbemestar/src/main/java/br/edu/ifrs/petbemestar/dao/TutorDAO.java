@@ -10,4 +10,5 @@ public interface TutorDAO {
 	void salvar(Tutor tutor);
 	void atualizar(Tutor tutor);
 	void remover(Long id);
+	Tutor buscarPorTelefone(String telefone);
 }

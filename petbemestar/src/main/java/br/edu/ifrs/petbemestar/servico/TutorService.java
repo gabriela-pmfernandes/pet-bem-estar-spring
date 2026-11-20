@@ -27,10 +27,18 @@ public class TutorService {
 	}
 	
 	public void salvar(Tutor tutor) {
+		Tutor existente = dao.buscarPorTelefone(tutor.getTelefone());
+		if(existente != null) {
+			throw new RegraDeNegocioException("Já existe um cliente cadastrado com o telefone " + tutor.getTelefone() + ".");	
+		}
 		dao.salvar(tutor);
 	}
 	
 	public void atualizar(Tutor tutor) {
+		Tutor existente = dao.buscarPorTelefone(tutor.getTelefone());
+		if(existente != null && !existente.getId().equals(tutor.getId())) {
+			throw new RegraDeNegocioException("O telefone " + tutor.getTelefone() + " já pertence a outro cliente cadastrado.");		
+		}
 		dao.atualizar(tutor);
 	}
 	

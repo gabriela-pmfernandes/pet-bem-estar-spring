@@ -38,4 +38,10 @@ public class TutorDAOJPA implements TutorDAO{
 		}
 	}
 
+	@Override
+	public Tutor buscarPorTelefone(String telefone) {
+		List<Tutor> resultado = em.createQuery("SELECT t FROM Tutor t WHERE t.telefone = :telefone", Tutor.class).setParameter("telefone", telefone).getResultList();
+		return resultado.isEmpty() ? null : resultado.get(0);
+	}
+
 }

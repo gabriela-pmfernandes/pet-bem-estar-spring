@@ -41,10 +41,19 @@ public class TutorPaginaController {
 		
 		if(resultado.hasErrors()) {
 			return "tutores/formulario";
+			
+		}
+		try {
+			service.salvar(tutor);
+			return "redirect:/paginas/tutores";
+			
+		}catch(RegraDeNegocioException e) {
+			model.addAttribute("erro", e.getMessage());
+			return "tutores/formulario";
 		}
 	
-		service.salvar(tutor);
-		return "redirect:/paginas/tutores";
+		
+		
 	}
 	
 	@GetMapping("/paginas/tutores/{id}/editar")
@@ -58,8 +67,15 @@ public class TutorPaginaController {
 		if(resultado.hasErrors()) {
 			return "tutores/edicao";
 		}
-	    service.atualizar(tutor);
-	    return "redirect:/paginas/tutores";
+		try {
+			service.atualizar(tutor);
+			return "redirect:/paginas/tutores";
+		}catch(RegraDeNegocioException e) {
+			model.addAttribute("erro", e.getMessage());
+			return "tutores/edicao";
+		}
+	    
+	    
 	}
 	
 	@PostMapping("/paginas/tutores/{id}/remover")
