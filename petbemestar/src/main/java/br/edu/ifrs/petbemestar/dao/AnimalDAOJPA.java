@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.ifrs.petbemestar.dominio.Animal;
+import br.edu.ifrs.petbemestar.dominio.Tutor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -48,5 +49,13 @@ public class AnimalDAOJPA implements AnimalDAO{
 			
 		}
 	}
+
+	@Override
+	public List<Animal> listarPorTutor(Long tutorId) {
+		// TODO Auto-generated method stub
+		return em.createQuery("SELECT  a from Animal a " + "where a.tutor.id = :tutorId order by a.nome", Animal.class).setParameter("tutorId", tutorId).getResultList();
+	}
+	
+	
 
 }

@@ -20,6 +20,8 @@ import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Animal;
 import br.edu.ifrs.petbemestar.dominio.Porte;
 import br.edu.ifrs.petbemestar.dominio.Tipo;
+import br.edu.ifrs.petbemestar.servico.AnimalService;
+
 import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
 
@@ -28,46 +30,46 @@ import jakarta.validation.Valid;
 @RestController
 public class AnimalController {
 
-	private final AnimalDAO dao;
+	private final AnimalService service;
 	
 	
-	public AnimalController(AnimalDAO dao) {
-		this.dao = dao;
+	public AnimalController(AnimalService service) {
+		this.service = service;
 	}
 	
 	@GetMapping("/animais")
 	public List<Animal> listar() {
-		return dao.listarTodos();
+		return service.listarTodos();
 	}
 	
 	
 	@PostMapping("/animais")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Animal cadastrar(@RequestBody Animal animal) {
-		dao.salvar(animal);
+		service.salvar(animal);
 		return animal;
 	}
 	
 	
 	@GetMapping("/animais/{id}")
 	public Animal buscarPorId(@PathVariable Long id) {
-	    return dao.buscarPorId(id);
+	    return service.buscarPorId(id);
 	}
 	
 	@PutMapping("/animais/{id}")
 	public Animal atualizar(@PathVariable Long id, @RequestBody Animal dados) {
-	    Animal animal = dao.buscarPorId(id);
+	    Animal animal = service.buscarPorId(id);
 	    animal.setNome(dados.getNome());
 	    animal.setTipo(dados.getTipo());
 	    animal.setPorte(dados.getPorte());
 	    animal.setTutor(dados.getTutor());
-	    dao.atualizar(animal);
+	    service.atualizar(animal);
 	    return animal;
 	}
 	
 	@DeleteMapping("/animais/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
-	    dao.remover(id);
+	    service.remover(id);
 	}
 }

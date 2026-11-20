@@ -14,29 +14,31 @@ import br.edu.ifrs.petbemestar.dominio.Animal;
 import br.edu.ifrs.petbemestar.dominio.Porte;
 import br.edu.ifrs.petbemestar.dominio.Tipo;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.servico.AnimalService;
+import br.edu.ifrs.petbemestar.servico.TutorService;
 import jakarta.validation.Valid;
 
 @Controller
 public class AnimalPaginaController {
-	private final AnimalDAO dao;
-	private final TutorDAO tutorDAO;
+	private final AnimalService service;
+	private final TutorService tutorService;
 	
-	public AnimalPaginaController(AnimalDAO dao, TutorDAO tutorDAO) {
-		this.dao = dao;
-		this.tutorDAO = tutorDAO;
+	public AnimalPaginaController(AnimalService service, TutorService tutorService) {
+		this.service = service;
+		this.tutorService = tutorService;
 	}
 	
 
 	@GetMapping("/paginas/animais")
 	public String listar(Model model) {
-		model.addAttribute("animais", dao.listarTodos());
+		model.addAttribute("animais", service.listarTodos());
 		return "animais/lista";
 	}
 	
 	@GetMapping("/paginas/animais/nova")
 	public String formulario(Model model) {
 		model.addAttribute("animal", new Animal());
-		model.addAttribute("tutores", tutorDAO.listarTodos());
+		model.addAttribute("tutores", tutorService.listarTodos());
 		model.addAttribute("tipos", Tipo.values());
 		model.addAttribute("portes", Porte.values());
 		return "animais/formulario";
@@ -46,22 +48,19 @@ public class AnimalPaginaController {
 	public String cadastrar(@Valid @ModelAttribute Animal animal, BindingResult resultado, Model model) {
 		
 		if(resultado.hasErrors()) {
-			model.addAttribute("tutores", tutorDAO.listarTodos());
+			model.addAttribute("tutores", tutorService.listarTodos());
 			model.addAttribute("tipos", Tipo.values());
 			model.addAttribute("portes", Porte.values());
 			return "animais/formulario";
 		}
-		Tutor completo = tutorDAO.buscarPorId(animal.getTutor().getId());
-		animal.setTutor(completo);
-		System.out.println("Nome do tutor do animal cadastrado: " + animal.getTutor().getNome());
-		dao.salvar(animal);
+		service.salvar(animal);
 		return "redirect:/paginas/animais";
 	}
 	
 	@GetMapping("/paginas/animais/{id}/editar")
 	public String edicao(@PathVariable Long id, Model model) {
-	    model.addAttribute("animal", dao.buscarPorId(id));
-	    model.addAttribute("tutores", tutorDAO.listarTodos());
+	    model.addAttribute("animal", service.buscarPorId(id));
+	    model.addAttribute("tutores", tutorService.listarTodos());
 	    model.addAttribute("tipos", Tipo.values());
 	    model.addAttribute("portes", Porte.values());
 	    return "animais/edicao";
@@ -70,18 +69,18 @@ public class AnimalPaginaController {
 	@PostMapping("/paginas/animais/editar")
 	public String atualizar(@Valid @ModelAttribute Animal animal, BindingResult resultado, Model model) {
 		if(resultado.hasErrors()) {
-			model.addAttribute("tutores", tutorDAO.listarTodos());
+			model.addAttribute("tutores", tutorService.listarTodos());
 			model.addAttribute("tipos", Tipo.values());
 			model.addAttribute("portes", Porte.values());
 			return "animais/edicao";
 		}
-	    dao.atualizar(animal);
+	    service.atualizar(animal);
 	    return "redirect:/paginas/animais";
 	}
 	
 	@PostMapping("/paginas/animais/{id}/remover")
 	public String remover(@PathVariable Long id) {
-	    dao.remover(id);
+	    service.remover(id);
 	    return "redirect:/paginas/animais";
 	}
 

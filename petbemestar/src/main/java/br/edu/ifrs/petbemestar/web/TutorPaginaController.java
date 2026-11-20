@@ -10,20 +10,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.servico.TutorService;
 import jakarta.validation.Valid;
 
 @Controller
 public class TutorPaginaController {
-	private final TutorDAO dao;
 	
-	public TutorPaginaController(TutorDAO dao) {
-		this.dao = dao;
+	private final TutorService service;
+	
+	public TutorPaginaController(TutorService service) {
+		this.service = service;
 	}
 	
 
 	@GetMapping("/paginas/tutores")
 	public String listar(Model model) {
-		model.addAttribute("tutores", dao.listarTodos());
+		model.addAttribute("tutores", service.listarTodos());
 		return "tutores/lista";
 	}
 	
@@ -40,13 +42,13 @@ public class TutorPaginaController {
 			return "tutores/formulario";
 		}
 	
-		dao.salvar(tutor);
+		service.salvar(tutor);
 		return "redirect:/paginas/tutores";
 	}
 	
 	@GetMapping("/paginas/tutores/{id}/editar")
 	public String edicao(@PathVariable Long id, Model model) {
-	    model.addAttribute("tutor", dao.buscarPorId(id));
+	    model.addAttribute("tutor", service.buscarPorId(id));
 	    return "tutores/edicao";
 	}
 	
@@ -55,13 +57,13 @@ public class TutorPaginaController {
 		if(resultado.hasErrors()) {
 			return "tutores/edicao";
 		}
-	    dao.atualizar(tutor);
+	    service.atualizar(tutor);
 	    return "redirect:/paginas/tutores";
 	}
 	
 	@PostMapping("/paginas/tutores/{id}/remover")
 	public String remover(@PathVariable Long id) {
-	    dao.remover(id);
+	    service.remover(id);
 	    return "redirect:/paginas/tutores";
 	}
 }

@@ -6,6 +6,7 @@ import br.edu.ifrs.petbemestar.dominio.Animal;
 
 public interface AnimalDAO {
 	List<Animal> listarTodos();
+	List<Animal> listarPorTutor(Long tutorId);
 	Animal buscarPorId(Long id);
 	void salvar(Animal animal);
 	void atualizar(Animal animal);

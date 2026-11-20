@@ -20,49 +20,51 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
 
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.servico.TutorService;
 import jakarta.validation.Valid;
 
 @RestController
 public class TutorController {
-private final TutorDAO dao;
+	
+private final TutorService service;
 	
 	
-	public TutorController(TutorDAO dao) {
-		this.dao = dao;
+	public TutorController(TutorService service) {
+		this.service = service;
 	}
 	
 	@GetMapping("/tutores")
 	public List<Tutor> listar() {
-		return dao.listarTodos();
+		return service.listarTodos();
 	}
 	
 	
 	@PostMapping("/tutores")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Tutor cadastrar(@RequestBody Tutor tutor) {
-		dao.salvar(tutor);
+		service.salvar(tutor);
 		return tutor;
 	}
 	
 	
 	@GetMapping("/tutores/{id}")
 	public Tutor buscarPorId(@PathVariable Long id) {
-	    return dao.buscarPorId(id);
+	    return service.buscarPorId(id);
 	}
 	
 	@PutMapping("/tutores/{id}")
 	public Tutor atualizar(@PathVariable Long id, @RequestBody Tutor dados) {
-	    Tutor tutor = dao.buscarPorId(id);
+	    Tutor tutor = service.buscarPorId(id);
 	    tutor.setNome(dados.getNome());
 	    tutor.setEmail(dados.getEmail());
 	    tutor.setTelefone(dados.getTelefone());
-	    dao.atualizar(tutor);
+	    service.atualizar(tutor);
 	    return tutor;
 	}
 	
 	@DeleteMapping("/tutores/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
-	    dao.remover(id);
+	    service.remover(id);
 	}
 }
