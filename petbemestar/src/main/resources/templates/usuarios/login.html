@@ -6,6 +6,9 @@
 	<link rel="stylesheet" href="/css/estilo.css">
 </head>
 <body>
+	<header>
+		<img src="/img/logo-pet-bem-estar.jpg" alt="logo Pet Bem-estar" class="logo">
+	</header>
 	<h1>Login</h1>
 	<p class="erro" th:if="${erro}" th:text="${erro}">Mensagem de erro</p>
 	<form action="/login" method="post" th:object="${usuario}">

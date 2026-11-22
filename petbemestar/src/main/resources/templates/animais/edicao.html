@@ -3,8 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<title>Editar Animal</title>
+	<link rel="stylesheet" href="/css/estilo.css">
 </head>
 <body>
+	<header>
+		<img src="/img/logo-pet-bem-estar.jpg" alt="Logo Pet Bem-Estar" class="logo">
+	</header>
+	
 	<h1>Editar Animal</h1>
 	<form method="post" th:action="@{/paginas/animais/editar}" th:object="${animal}">
 		<input type="hidden" th:field="*{id}">

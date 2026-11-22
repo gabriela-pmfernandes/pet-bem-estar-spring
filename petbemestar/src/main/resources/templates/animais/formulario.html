@@ -3,8 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<title>Novo Animal</title>
+	<link rel="stylesheet" href="/css/estilo.css">
 </head>
 <body>
+	<header>
+		<img src="/img/log-pet-bem-estar.jpg" alt="Logo Pet Bem-Estar" class="logo">
+	</header>
 	<h1>Novo Animal</h1>
 	<form method="post" th:action="@{/paginas/animais/nova}" th:object="${animal}">
 		<p>

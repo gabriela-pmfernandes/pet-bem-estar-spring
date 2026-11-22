@@ -3,8 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<title>Editar Tutor</title>
+	<link rel="stylesheet" href="/css/estilo.css">
 </head>
 <body>
+	<header>
+		<img src="/img/logo-pet-bem-estar.jpg" alt="logo Pet Bem-Estar" class="logo">
+	</header>
 	<h1>Editar Tutor</h1>
 	<p class="erro" th:if="${erro}" th:text="${erro}"></p>
 	<form method="post" th:action="@{/paginas/tutores/editar}" th:object="${tutor}">

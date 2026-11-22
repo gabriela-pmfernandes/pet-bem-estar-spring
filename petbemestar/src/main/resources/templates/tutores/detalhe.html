@@ -3,8 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<title th:text="${tutor.nome}">Tutores</title>
+	<link rel="stylesheet" href="/css/estilo.css">
 </head>
 <body>
+	<header>
+		<img src="/img/logo-pet-bem-estar.jpg" alt="logo Pet Bem-Estar" class="logo">
+	</header>
 	<h1 th:text="${tutor.nome}">Tutores Cadastrados</h1>
 	<p>Telefone: <span th:text="${tutor.telefone}"></span></p>
 	<p th:if="${animais.isEmpty()}">Nenhum animal cadastrado</p>
