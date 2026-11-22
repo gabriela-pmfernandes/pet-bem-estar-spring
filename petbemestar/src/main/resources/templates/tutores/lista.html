@@ -6,6 +6,10 @@
 </head>
 <body>
 	<h1>Tutores Cadastrados</h1>
+	<p th:if="${session.usuarioLogado}">
+		Usuario: <span th:text="${session.usuarioLogado.nomeUsuario}">Marlene</span>
+			<a href="/sair">Sair</a>
+	</p>
 	<p class="erro" th:if="${erro}" th:text="${erro}"></p>
 	<table border="1">
 		<thead>

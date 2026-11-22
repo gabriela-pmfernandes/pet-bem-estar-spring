@@ -20,8 +20,8 @@
 		<tbody>
 			<tr th:each="animal : ${animais}">
 				<td th:text="${animal.nome}"></td>
-				<td th:text="${animal.tipo}"></td>
-				<td th:text="${animal.porte}"></td>
+				<td th:text="${animal.tipo.nome}"></td>
+				<td th:text="${animal.porte.nome}"></td>
 			</tr>
 		</tbody>
 	</table>
